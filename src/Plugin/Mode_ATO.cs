@@ -152,7 +152,7 @@ namespace Plugin
                 //Call ChangeAtoDemands with appropriate time between notch 
                 ChangeAtoDemands(data, notch, ATO_TIME_BETWEEN_NOTCH_CHANGE, true, true);
 
-                train.debugMessage = $"Enroute. TS {atoTargetSpeedDemand}, TASC {atoStoppingDemand}. Req {notch}. Actual {atoDemands}. Target speed {train.atpTargetSpeed}";
+                train.debugMessage = $"Enroute. TS {atoTargetSpeedDemand}, TASC {atoStoppingDemand}. Req {notch}. Actual {atoDemands}. Target speed {train.atpMaxSpeed}";
             }
 
             if (atoReceivedData != null)
@@ -161,19 +161,19 @@ namespace Plugin
                 atoReceivedData = null;
             }
 
-            //train.debugMessage = $" Ato: {atoState} demanding {atoDemands} for {train.atpTargetSpeed}";
+            //train.debugMessage = $" Ato: {atoState} demanding {atoDemands} for {train.atpMaxSpeed}";
             return atoDemands;
         }
 
         internal int CalculateTargetSpeedNotchChange(ElapseData data)
         {
-            double speedDifference = train.atpTargetSpeed - data.Vehicle.Speed.KilometersPerHour;
+            double speedDifference = train.atpMaxSpeed - data.Vehicle.Speed.KilometersPerHour;
             
-            if (train.atpTargetSpeed <= 3.0 && data.Vehicle.Speed.KilometersPerHour <= 3.0)
+            if (train.atpMaxSpeed <= 3.0 && data.Vehicle.Speed.KilometersPerHour <= 3.0)
             {
                 return -1;
             }
-            else if (train.atpTargetSpeed < data.Vehicle.Speed.KilometersPerHour)
+            else if (train.atpMaxSpeed < data.Vehicle.Speed.KilometersPerHour)
             {
                 int notch = Math.Min(0, (int)(speedDifference / ATO_BRAKING_AMOUNT) - 1); 
                 return notch - atoDemands??0;
