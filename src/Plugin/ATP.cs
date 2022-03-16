@@ -20,6 +20,7 @@ namespace Plugin
 
         const double ATP_OVERSPEED_ALERT_THRESHOLD = 3.0f;
         const double ATP_OVERSPEED_COAST_THRESHOLD = 1.0f;
+        const double ATP_TARGET_OFFSET = 10.0f;
         SoundHandle atpOverspeedSoundHandle = null;
 
         private Train train;
@@ -159,13 +160,19 @@ namespace Plugin
                     var prevMaxSpeed = train.atpMaxSpeed;
                     train.atpMaxSpeed = train.atpTrackMaxSpeed;
                     train.atpSafetySpeed = train.atpTrackSafetySpeed;
+
+                    if(train.atpTargetSpeed != 0)
+                    {
+                        train.currHoldSpeed = train.atpTargetSpeed;
+                    }
+
                     if (prevMaxSpeed > train.atpMaxSpeed)
                     {
                         train.atpTargetSpeed = 0;
                     }
                     else
                     {
-                        train.atpTargetSpeed = train.atpMaxSpeed - 10;
+                        train.atpTargetSpeed = train.atpMaxSpeed - ATP_TARGET_OFFSET;
                     }
                 }
             }

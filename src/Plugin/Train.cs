@@ -43,6 +43,7 @@ namespace Plugin
         internal double atpTrackNextSpeedPosition = -1; //distance to upcoming
 
         internal double atpTargetSpeed = 00.0; // Target speed
+        internal double currHoldSpeed = 00.0; //Store the last seen speed, use for hold the current speed
 
         internal double temp1 = 0;
 

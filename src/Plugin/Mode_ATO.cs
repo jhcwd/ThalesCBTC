@@ -167,13 +167,14 @@ namespace Plugin
 
         internal int CalculateTargetSpeedNotchChange(ElapseData data)
         {
-            double speedDifference = train.atpMaxSpeed - data.Vehicle.Speed.KilometersPerHour;
+            double currentTargetSpeed = train.atpTargetSpeed > 0 ? train.atpTargetSpeed : Math.Min(train.atpMaxSpeed, train.currHoldSpeed);
+            double speedDifference = currentTargetSpeed - data.Vehicle.Speed.KilometersPerHour;
             
-            if (train.atpMaxSpeed <= 3.0 && data.Vehicle.Speed.KilometersPerHour <= 3.0)
+            if (currentTargetSpeed <= 3.0 && data.Vehicle.Speed.KilometersPerHour <= 3.0)
             {
                 return -1;
             }
-            else if (train.atpMaxSpeed < data.Vehicle.Speed.KilometersPerHour)
+            else if (currentTargetSpeed < data.Vehicle.Speed.KilometersPerHour)
             {
                 int notch = Math.Min(0, (int)(speedDifference / ATO_BRAKING_AMOUNT) - 1); 
                 return notch - atoDemands??0;
