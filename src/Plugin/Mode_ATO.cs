@@ -41,7 +41,8 @@ namespace Plugin
         {
             Ready,
             Enroute,
-            Stopped
+            Stopped,
+            WaitingPress
         }
         private AtoStates atoState = AtoStates.Ready;
 
@@ -320,7 +321,11 @@ namespace Plugin
 
         internal override void KeyDown(VirtualKeys key)
         {
-
+            if (key == VirtualKeys.A2 && atoState == AtoStates.WaitingPress)
+            {
+                atoState = AtoStates.Ready;
+                readyTimer = ATO_READY_TIMER;
+            }
         }
 
         internal override void KeyUp(VirtualKeys key)
