@@ -66,6 +66,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>..\..\..\..\Games\Line 7 - CBTC\CBTC2\sgatc-plugin\</OutputPath>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>

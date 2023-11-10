@@ -37,6 +37,9 @@ namespace Plugin
         const float ATO_BRAKING_AMOUNT = 0.1f;
         const float ATO_READY_TIMER = 1.0f;
 
+        [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        public static extern void OutputDebugString(string message);
+
         private enum AtoStates
         {
             Ready,
@@ -87,7 +90,7 @@ namespace Plugin
                 return null;
             }
 
-            if (atoState == AtoStates.Stopped)
+            if (atoState == AtoStates.Stopped || atoState==AtoStates.WaitingPress)
             {
                 atoStoppingPosition = null;
                 return -train.specs.BrakeNotches;
@@ -162,7 +165,8 @@ namespace Plugin
                 atoReceivedData = null;
             }
 
-            //train.debugMessage = $" Ato: {atoState} demanding {atoDemands} for {train.atpMaxSpeed}";
+            //train.debugMessage = ;
+            OutputDebugString($" Ato: {atoState} demanding {atoDemands} for {train.atpTargetSpeed}");
             return atoDemands;
         }
 
@@ -376,8 +380,9 @@ namespace Plugin
             else if(oldState != DoorStates.None && newState == DoorStates.None)
             {
                 //Door closed
-                atoState = AtoStates.Ready;
-                readyTimer = ATO_READY_TIMER;
+                //atoState = AtoStates.Ready;
+                //readyTimer = ATO_READY_TIMER;
+                atoState = AtoStates.WaitingPress;
             }
         }
     }

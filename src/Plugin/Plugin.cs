@@ -7,14 +7,18 @@ namespace Plugin {
 
         internal Train train = null;
 
-		/// <summary>Is called when the plugin is loaded.</summary>
-		/// <param name="properties">The properties supplied to the plugin on loading.</param>
-		/// <returns>Whether the plugin was loaded successfully.</returns>
-		public bool Load(LoadProperties properties)
+        [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        public static extern void OutputDebugString(string message);
+
+        /// <summary>Is called when the plugin is loaded.</summary>
+        /// <param name="properties">The properties supplied to the plugin on loading.</param>
+        /// <returns>Whether the plugin was loaded successfully.</returns>
+        public bool Load(LoadProperties properties)
         {
             properties.Panel = new int[256];
             properties.AISupport = AISupport.Basic;
             train = new Train(properties.Panel, properties.PlaySound);
+            OutputDebugString("loaded");
             return true;
         }
 		
